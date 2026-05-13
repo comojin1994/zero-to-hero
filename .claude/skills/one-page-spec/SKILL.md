@@ -33,7 +33,7 @@ description: 아이디어를 대화로 구체화해서 즉시 개발 가능한 �
 | 카테고리 | 옵션 예시 |
 |----------|-----------|
 | **디자인 분위기** | A. 미니멀 애플 스타일 / B. 화려한 게임 스타일 / C. 따뜻한 종이감 |
-| **데이터 저장** | A. 브라우저(localStorage)에 저장 / B. 서버 DB / C. 저장 없이 일회용 |
+| **데이터 저장** | A. Supabase DB에 저장 / B. 브라우저(localStorage)에 저장 / C. 저장 없이 일회용 |
 | **핵심 인터랙션** | A. 카드 뒤집기 애니메이션 / B. 즉시 결과 표시 / C. 단계별 입력 폼 |
 | **타겟 사용자** | A. 본인용 토이 / B. 친구끼리 공유 / C. 일반 대중 |
 | **출력 형태** | A. 단일 HTML 페이지 / B. 모바일 반응형 / C. 데스크탑 전용 |
@@ -61,7 +61,8 @@ description: 아이디어를 대화로 구체화해서 즉시 개발 가능한 �
       "header": "저장",
       "multiSelect": false,
       "options": [
-        {"label": "브라우저에 저장", "description": "localStorage — 새로고침해도 남음"},
+        {"label": "Supabase에 저장", "description": "기본값 — 인증/공유/동기화 가능"},
+        {"label": "브라우저에 저장", "description": "localStorage — 새로고침해도 남음, 기기 종속"},
         {"label": "저장 없이 일회용", "description": "끄면 사라짐 — 가볍고 빠름"}
       ]
     },
@@ -130,8 +131,8 @@ description: 아이디어를 대화로 구체화해서 즉시 개발 가능한 �
 { 이 서비스가 무엇을 하는지 명확한 한 문장 }
 
 ## 2. 기술 스택
-- **프레임워크**: { 예: React + Tailwind CSS (단일 HTML 파일) }
-- **데이터 저장**: { 예: localStorage / Supabase / 저장 없음 }
+- **프레임워크**: { 기본: Next.js (App Router) + Tailwind CSS + TypeScript }
+- **데이터 저장**: { 기본: Supabase (Postgres + Auth). 필요 시 localStorage / 저장 없음 }
 - **에셋**: { 예: Lucide React 아이콘, Google Fonts (Noto Sans KR) }
 
 ## 3. 핵심 기능 (최대 3개)
@@ -156,17 +157,20 @@ description: 아이디어를 대화로 구체화해서 즉시 개발 가능한 �
 
 ## 기술 스택 추천 가이드 (AI 내부 휴리스틱)
 
-사용자가 명시적으로 다른 스택을 원하지 않으면 아이디어 성격에 따라 추천:
+기본 스택은 항상 **Next.js (App Router) + Tailwind CSS + Supabase + TypeScript**. 처음부터 인증·DB·배포까지 갖춘 풀스택 구조로 시작한다.
 
-| 아이디어 성격 | 추천 스택 |
+아이디어 성격에 따라 추가 라이브러리만 얹는다:
+
+| 아이디어 성격 | 추가/조정 |
 |---------------|----------|
-| 간단한 단일 페이지 도구 (메모, 계산기, 추첨기) | React + Tailwind CSS, 단일 HTML 파일 |
-| 저장 필요한 개인용 도구 | React + Tailwind + localStorage |
-| 공유/멀티유저 | Next.js + Tailwind + Supabase |
-| 인터랙티브 애니메이션 중심 | React + Tailwind + Framer Motion |
-| 3D / 게임 | React Three Fiber 또는 Phaser |
+| 단순 단일 페이지 도구 (메모, 계산기, 추첨기) | 기본 스택 그대로. Supabase는 익명 세션으로 |
+| 저장 필요한 개인용 도구 | 기본 스택 + Supabase Auth (이메일 또는 OAuth) |
+| 공유/멀티유저 | 기본 스택 + Supabase Realtime |
+| 인터랙티브 애니메이션 중심 | 기본 스택 + Framer Motion |
+| 3D / 게임 | 기본 스택 + React Three Fiber 또는 Phaser |
+| 진짜로 저장 불필요한 일회용 | 기본 스택, Supabase 연동 생략 (사용자 선택 시) |
 
-기본은 항상 **React + Tailwind (단일 파일)** — 가장 빠르게 프로토타입 가능.
+**기본은 항상 Next.js + Tailwind + Supabase** — 토이라도 배포·확장까지 한 흐름으로 갈 수 있도록 기본을 풀스택으로 잡는다.
 
 ---
 
